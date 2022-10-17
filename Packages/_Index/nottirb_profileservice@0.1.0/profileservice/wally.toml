@@ -1,0 +1,11 @@
+[package]
+name = "nottirb/profileservice"
+description = "Specializes in loading and auto-saving DataStore profiles. Ported from loleris/profileservice"
+version = "0.1.0"
+license = "Apache-2.0"
+authors = ["loleris", "Scarious"]
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+exclude = ["test", "test.project.json", "DevPackages"]
+
+[dependencies]
