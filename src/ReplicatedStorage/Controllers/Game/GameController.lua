@@ -31,10 +31,9 @@ function GameController:KnitStart()
             self.lobbyScene:Cleanup():Destroy()
             self.lobbyScene = nil
 
-            LobbyScreenGUI.Enabled = false
-
             print("lobby scened clean")
         end
+        LobbyScreenGUI.Enabled = false
     end)
 end
 

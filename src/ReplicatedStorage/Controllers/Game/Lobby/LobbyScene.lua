@@ -13,15 +13,15 @@ function LobbyScene.new()
 end
 
 local waiting_for_players = {
-    "rbxassetid://11308298933",
+    "rbxassetid://11309448386",
     "rbxassetid://11308301206",
     "rbxassetid://11308301796"
 }
 
 local lobby_background = {
-    "rbxassetid://11308289695",
-    "rbxassetid://11308294443",
-    "rbxassetid://11308294847"
+    "rbxassetid://11308728004",
+    "rbxassetid://11308729652",
+    "rbxassetid://11308731265"
 }
 
 local plr = Players.LocalPlayer
@@ -66,6 +66,8 @@ function LobbyScene:TrackPlayers(playersFrame: Frame, playerTemplate: Frame, cal
         local content, isReady = Players:GetUserThumbnailAsync(player.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size100x100)
         template.head.Image = content
         template.Parent = playersFrame
+
+        template:TweenSize(template.Size, Enum.EasingDirection.Out, Enum.EasingStyle.Elastic, 1, true)
     end
     --load players before PlayerAdded event
     for _, player in Players:GetPlayers() do
@@ -108,6 +110,7 @@ function LobbyScene:Destroy()
         self.playerAdded:Disconnect()
         self.playersRemoved:Disconnect()    
     end
+    self.animate = false
     self = nil
 end
 
