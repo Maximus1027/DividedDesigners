@@ -9,7 +9,7 @@ for _, v in pairs(ReplicatedStorage.src:GetDescendants()) do
 end
 
 Knit.Start({
-    ServicePromises = false,
+    ServicePromises = true,
 }):andThen(function()
     print("Knit client started")
 end):catch(warn)

@@ -15,7 +15,7 @@ for _, v in pairs(ServerStorage.src:GetDescendants()) do
 end
 
 Knit.Start({
-    ServicePromises = false,
+    ServicePromises = true,
 }):andThen(function()
     print("Knit started")
 end):catch(warn)
