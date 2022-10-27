@@ -30,7 +30,6 @@ function DrawingController:KnitStart()
 	local draw = plr.PlayerGui.Main.station.drawTool
 
 	mouse.Move:Connect(function()
-		print(drawing)
 		if drawing then
 			local x = math.abs(mouse.X - canvas.AbsolutePosition.X)
 			local y = math.abs(mouse.Y - canvas.AbsolutePosition.Y)

@@ -13,9 +13,9 @@ function LobbyScene.new()
 end
 
 local waiting_for_players = {
-    "rbxassetid://11309448386",
-    "rbxassetid://11308301206",
-    "rbxassetid://11308301796"
+   "rbxassetid://11388828309",
+    "rbxassetid://11388829400",
+    "rbxassetid://11388830035"
 }
 
 local lobby_background = {
