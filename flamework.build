@@ -3,7 +3,6 @@
 	"flameworkVersion": "1.0.0-beta.14",
 	"identifiers": {
 		"flamework-template:out/shared/network@GlobalEvents": "shared/network@GlobalEvents",
-		"flamework-template:out/shared/network@GlobalFunctions": "shared/network@GlobalFunctions",
-		"flamework-template:out/client/components/animation@Animation": "client/components/animation@Animation"
+		"flamework-template:out/shared/network@GlobalFunctions": "shared/network@GlobalFunctions"
 	}
 }
