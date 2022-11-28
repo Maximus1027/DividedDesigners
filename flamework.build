@@ -2,7 +2,37 @@
 	"version": 1,
 	"flameworkVersion": "1.0.0-beta.14",
 	"identifiers": {
-		"flamework-template:out/shared/network@GlobalEvents": "shared/network@GlobalEvents",
-		"flamework-template:out/shared/network@GlobalFunctions": "shared/network@GlobalFunctions"
+		"flamework-template:out/shared/Team@Team": "vz",
+		"flamework-template:out/client/components/Animation@Animation": "Qw",
+		"flamework-template:out/client/controllers/Drawing@Drawing": "X6",
+		"flamework-template:out/client/controllers/LoadHandler@LoadHandler": "rw",
+		"flamework-template:out/client/controllers/Lobby@Lobby": "eY",
+		"flamework-template:out/client/controllers/Teams@Teams": "Zz",
+		"flamework-template:out/server/services/scenes/Scene@Scene": "mK",
+		"flamework-template:out/server/services/scenes/Drawing@Drawing": "Lr",
+		"flamework-template:out/server/services/scenes/Explain@Explain": "Oz",
+		"flamework-template:out/server/services/scenes/Lobby@Lobby": "N2",
+		"flamework-template:out/server/services/scenes/Teams@Teams": "89",
+		"flamework-template:out/server/services/game@GameService": "Re",
+		"flamework-template:out/server/services/game@SceneHandler": "9B",
+		"flamework-template:out/server/services/game@Game": "g8",
+		"flamework-template:out/shared/network@GlobalEvents": "Jw",
+		"flamework-template:out/shared/network@GlobalFunctions": "k4",
+		"flamework-template:out/client/controllers/Drawing@DrawCanvas": "Wl",
+		"flamework-template:out/client/controllers/Drawing@DrawController": "6J",
+		"flamework-template:out/client/controllers/TestDrawing@TestDrawing": "j7",
+		"flamework-template:out/client/controllers/UIDefaults@UIDefaults": "Vb"
+	},
+	"salt": "fc640e90e84137958fc2b2c9c11b6ad02aee21e4f3c81938cd8ad87f04cd9a09ca29d2d79124d013c435a6258cc66ea38fc4116b1f363182c4cd8e62a8ff39fa",
+	"stringHashes": {
+		"remotes:playerLoaded": "4bda14bb-c57d-4483-9a0a-1f460eff3115",
+		"remotes:sendDrawing": "2228dad6-349d-49bd-b6d1-f04f2acca9b0",
+		"remotes:displayLobby": "146e07a8-d4c2-4275-8f9b-23dfc245ca8d",
+		"remotes:cleanupLobby": "39ad0dc3-be26-4ea5-8d3a-558fa61a2da7",
+		"remotes:displayTeams": "23e4f28d-cc52-44dd-bf4a-adecdd62de69",
+		"remotes:cleanupTeams": "295a8a38-0faf-4c3e-b08c-64712f544ae6",
+		"remotes:startDrawing": "e27e3e9f-148a-46e8-8abd-5b278bc3864b",
+		"remotes:sendTestDrawng": "920ab5d2-7b0a-4b68-a7fa-be3c78a79c7e",
+		"remotes:sendTestDrawing": "53483195-6ffd-4981-ad33-d328d9041e31"
 	}
 }

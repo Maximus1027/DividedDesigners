@@ -1,8 +1,22 @@
 import { Networking } from "@flamework/networking";
+import { Team } from "./Team";
 
-interface ServerEvents {}
+interface ServerEvents {
+	playerLoaded(): void;
 
-interface ClientEvents {}
+	sendDrawing(drawing: unknown): void;
+}
+
+interface ClientEvents {
+	displayLobby(): void;
+	cleanupLobby(): void;
+
+	displayTeams(team: unknown): void;
+	cleanupTeams(): void;
+
+	startDrawing(): void;
+	sendTestDrawing(drawing: unknown): void;
+}
 
 interface ServerFunctions {}
 
