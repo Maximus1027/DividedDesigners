@@ -21,7 +21,10 @@
 		"flamework-template:out/client/controllers/Drawing@DrawCanvas": "Wl",
 		"flamework-template:out/client/controllers/Drawing@DrawController": "6J",
 		"flamework-template:out/client/controllers/TestDrawing@TestDrawing": "j7",
-		"flamework-template:out/client/controllers/UIDefaults@UIDefaults": "Vb"
+		"flamework-template:out/client/controllers/UIDefaults@UIDefaults": "Vb",
+		"flamework-template:out/client/controllers/DrawingDisplay@DrawingDisplay": "7a",
+		"flamework-template:out/client/controllers/DrawingDisplay@SpectateDrawing": "bm",
+		"flamework-template:out/client/controllers/DrawingDisplay@Drawing": "Ae"
 	},
 	"salt": "fc640e90e84137958fc2b2c9c11b6ad02aee21e4f3c81938cd8ad87f04cd9a09ca29d2d79124d013c435a6258cc66ea38fc4116b1f363182c4cd8e62a8ff39fa",
 	"stringHashes": {
@@ -33,6 +36,11 @@
 		"remotes:cleanupTeams": "295a8a38-0faf-4c3e-b08c-64712f544ae6",
 		"remotes:startDrawing": "e27e3e9f-148a-46e8-8abd-5b278bc3864b",
 		"remotes:sendTestDrawng": "920ab5d2-7b0a-4b68-a7fa-be3c78a79c7e",
-		"remotes:sendTestDrawing": "53483195-6ffd-4981-ad33-d328d9041e31"
+		"remotes:sendTestDrawing": "53483195-6ffd-4981-ad33-d328d9041e31",
+		"remotes:cleanupDrawing": "81d800ed-b678-46f0-bfbb-c38e345c79b6",
+		"remotes:sendSpectatorUpdate": "5c60a952-df91-492c-b69e-23c1592218f8",
+		"remotes:startSpectating": "ac329936-2ee0-4599-aa8e-6255d83cdecc",
+		"remotes:sendSpectateDrawing": "c77d3fb9-580a-4fba-aa8f-92d402792918",
+		"remotes:cleanupSpectating": "9dd0e307-0349-42b9-8477-a512db2813b7"
 	}
 }

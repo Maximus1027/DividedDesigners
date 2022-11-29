@@ -19,4 +19,17 @@ export class Team {
 			return [this.leader, this.partner];
 		}
 	}
+
+	public hasPlayer(player: Player): boolean {
+		return this.getPlayers().indexOf(player) !== -1;
+	}
+
+	static getTeamFromPlayer(teams: Team[], player: Player): Team | undefined {
+		const team: Team = teams.filter((team) => team.hasPlayer(player))[0];
+		if (team !== undefined) {
+			return team;
+		}
+
+		return undefined;
+	}
 }

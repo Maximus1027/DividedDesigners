@@ -13,17 +13,49 @@ export class Drawing implements OnStart, OnInit {
 	onInit() {}
 
 	onStart() {
-		Events.startDrawing.connect(() => {
+		Events.startDrawing.connect((drawingTime: number) => {
 			clientDrawGui.Enabled = true;
+			//new drawing object
 			const newDrawing = new DrawCanvas(clientDrawGui?.FindFirstChild("station") as Frame);
 			newDrawing.startDrawing();
 
-			task.wait(15);
+			//countdown display
+			(clientDrawGui?.FindFirstChild("time") as Frame).Size = new UDim2(1, 0, 0.027, 0);
+			(clientDrawGui?.FindFirstChild("time") as Frame).TweenSize(
+				new UDim2(0, 0, 0.027, 0),
+				Enum.EasingDirection.Out,
+				Enum.EasingStyle.Linear,
+				drawingTime,
+				true,
+			);
+
+			coroutine.wrap(() => {
+				// eslint-disable-next-line no-constant-condition
+				while (true) {
+					task.wait(1);
+					if (!clientDrawGui.Enabled) {
+						return;
+					} else {
+						print("sending spectate update!");
+						Events.sendSpectatorUpdate.fire(newDrawing.getCanvasCoordinates());
+					}
+				}
+			})();
+
+			const erase = (clientDrawGui?.FindFirstChild("erase") as ImageButton).MouseButton1Click.Connect(() => {
+				newDrawing.eraseCanvas();
+			});
+
+			//yields firing the event
+			task.wait(drawingTime);
 			Events.sendDrawing.fire(newDrawing.getCanvasCoordinates());
+
+			//cleanup
 			clientDrawGui.Enabled = false;
 
 			//cleanup events
 			newDrawing.destroy();
+			erase.Disconnect();
 		});
 	}
 }
@@ -109,6 +141,7 @@ export class DrawCanvas {
 			lineFrame.AnchorPoint = new Vector2(0.5, 0.5);
 			lineFrame.Rotation = (Angle * 180) / math.pi;
 			lineFrame.BorderSizePixel = 0;
+			lineFrame.Name = "line";
 			lineFrame.Parent = canvas;
 		}
 	}
@@ -132,6 +165,19 @@ export class DrawCanvas {
 
 	public getCanvasCoordinates(): Array<LuaTuple<[Vector2, Vector2]>> {
 		return this.CanvasCoordinates;
+	}
+
+	/**
+	 * Erases the canvas
+	 */
+	public eraseCanvas(): void {
+		this.canvas.GetChildren().forEach((child) => {
+			if (child.Name !== "drawTool") {
+				child.Destroy();
+			}
+		});
+
+		this.CanvasCoordinates = [];
 	}
 
 	/**
@@ -237,6 +283,7 @@ export class DrawCanvas {
 					const connectorFrame = this.canvas?.FindFirstChild("drawTool")?.Clone() as Frame;
 					connectorFrame.Position = mousePos;
 					connectorFrame.Size = new UDim2(connectorFrame.Size.X.Scale, 0, 0, DrawCanvas.DRAW_WIDTH);
+					connectorFrame.Name = "connector";
 					connectorFrame.Parent = this.canvas;
 				}
 			}

@@ -5,6 +5,7 @@ interface ServerEvents {
 	playerLoaded(): void;
 
 	sendDrawing(drawing: unknown): void;
+	sendSpectatorUpdate(drawing: unknown): void;
 }
 
 interface ClientEvents {
@@ -14,7 +15,13 @@ interface ClientEvents {
 	displayTeams(team: unknown): void;
 	cleanupTeams(): void;
 
-	startDrawing(): void;
+	startDrawing(time: number): void;
+	cleanupDrawing(): void;
+
+	startSpectating(): void;
+	sendSpectateDrawing(drawing: unknown): void;
+	cleanupSpectating(): void;
+
 	sendTestDrawing(drawing: unknown): void;
 }
 
