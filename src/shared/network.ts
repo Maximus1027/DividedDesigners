@@ -15,10 +15,10 @@ interface ClientEvents {
 	displayTeams(team: unknown): void;
 	cleanupTeams(): void;
 
-	startDrawing(time: number): void;
+	startDrawing(time: number, previousDrawings: unknown): void;
 	cleanupDrawing(): void;
 
-	startSpectating(): void;
+	startSpectating(previousDrawings: unknown): void;
 	sendSpectateDrawing(drawing: unknown): void;
 	cleanupSpectating(): void;
 

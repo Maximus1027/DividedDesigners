@@ -41,7 +41,8 @@ export class Drawing extends Scene implements onStart {
 		const spectating = team.getPlayers();
 		spectating.remove(spectating.indexOf(except));
 
-		Events.startSpectating.fire(spectating);
+		print(`PREVIOUS DRAWINGS (SPECTATE): ${team.getPreviousDrawings()}}`);
+		Events.startSpectating.fire(spectating, team.getPreviousDrawings());
 	}
 
 	onStart(): Promise<Error | Success> {
@@ -61,6 +62,8 @@ export class Drawing extends Scene implements onStart {
 				}
 
 				verifiedDrawings.set(player, drawing);
+				const team = Team.getTeamFromPlayer(this.teams, player);
+				team?.addDrawing(drawing);
 
 				//Events.sendTestDrawing.broadcast(drawing);
 			}),
@@ -92,7 +95,7 @@ export class Drawing extends Scene implements onStart {
 
 			const drawPromise = Promise.try(() => {
 				//begin leader drawing
-				Events.startDrawing.fire(team.leader, drawingtime);
+				Events.startDrawing.fire(team.leader, drawingtime, team.getPreviousDrawings());
 
 				//leader is the `except` (does not spectate because they are drawing)
 				this.startSpectating(team, team.leader);
@@ -103,8 +106,10 @@ export class Drawing extends Scene implements onStart {
 					Events.cleanupSpectating.fire(team.getPlayers());
 				})
 				.andThen(() => {
+					//assures that the drawing is sent before the partner starts drawing
+					task.wait(0.5);
 					//begin partner drawing
-					Events.startDrawing.fire(team.partner, drawingtime);
+					Events.startDrawing.fire(team.partner, drawingtime, team.getPreviousDrawings());
 
 					//partner1 is the `except` (does not spectate because they are drawing)
 					this.startSpectating(team, team.partner);
@@ -116,7 +121,10 @@ export class Drawing extends Scene implements onStart {
 				})
 				.finally(() => {
 					if (team.partner2 !== undefined) {
-						Events.startDrawing.fire(team.partner2, drawingtime);
+						//assures that the drawing is sent before the partner starts drawing
+						task.wait(0.5);
+
+						Events.startDrawing.fire(team.partner2, drawingtime, team.getPreviousDrawings());
 
 						//partner2 is the `except` (does not spectate because they are drawing)
 						this.startSpectating(team, team.partner2);

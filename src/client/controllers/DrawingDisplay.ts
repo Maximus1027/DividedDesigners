@@ -2,6 +2,7 @@ import { Controller, OnStart, OnInit } from "@flamework/core";
 import Maid from "@rbxts/maid";
 import { Players } from "@rbxts/services";
 import { Events } from "client/network";
+import { getAvailableCanvas } from "shared/utils/DrawingUtil";
 import { DrawCanvas } from "./Drawing";
 
 const player = Players.LocalPlayer;
@@ -22,10 +23,12 @@ export class DrawingDisplay implements OnStart, OnInit {
 		//SPECTATING
 		let spectating: SpectateDrawing | undefined;
 
-		Events.startSpectating.connect(() => {
+		Events.startSpectating.connect((previousDrawings: unknown) => {
 			print("start spectating");
-			spectating = new SpectateDrawing();
+			const teamDrawings = previousDrawings as LuaTuple<[Vector2, Vector2]>[][];
+			spectating = new SpectateDrawing(teamDrawings);
 
+			spectating.displayPreviousDrawings();
 			spectating.onTrack();
 		});
 
@@ -38,7 +41,7 @@ export class DrawingDisplay implements OnStart, OnInit {
 	}
 }
 
-class Drawing {
+export class Drawing {
 	static generateDrawing(drawing: unknown, canvas: Frame) {
 		const draw = drawing as LuaTuple<[Vector2, Vector2]>[];
 
@@ -49,7 +52,7 @@ class Drawing {
 
 			const connectorFrame = canvas?.FindFirstChild("drawTool")?.Clone() as Frame;
 			connectorFrame.Position = u1;
-			connectorFrame.Size = new UDim2(connectorFrame.Size.X.Scale, 0, 0, DrawCanvas.DRAW_WIDTH);
+			connectorFrame.Size = new UDim2(connectorFrame.Size.X.Scale, 0, 0, DrawCanvas.DRAW_WIDTH / 2);
 			connectorFrame.Name = "connector";
 			connectorFrame.Parent = canvas;
 		});
@@ -77,15 +80,21 @@ class Drawing {
 
 class SpectateDrawing {
 	private maid: Maid;
-	constructor() {
+	//previous team drawings!
+	private previousDrawings: LuaTuple<[Vector2, Vector2]>[][];
+	constructor(previousDrawings: LuaTuple<[Vector2, Vector2]>[][]) {
 		this.maid = new Maid();
+		this.previousDrawings = previousDrawings;
 	}
 
 	/**
 	 * Begins tracking events from the server to display for the spectator
 	 */
 	public onTrack() {
-		const canvas = spectateDrawGui?.FindFirstChild("station") as Frame;
+		//find the station that is not visible meaning it can be used
+		const canvas = getAvailableCanvas(spectateDrawGui);
+
+		canvas.Visible = true;
 		Drawing.clearCanvasDrawing(canvas);
 
 		spectateDrawGui.Enabled = true;
@@ -97,8 +106,45 @@ class SpectateDrawing {
 		});
 	}
 
+	/**
+	 * Displays the previous drawings using the previousDrawings array
+	 */
+	public displayPreviousDrawings() {
+		if (this.previousDrawings === undefined || this.previousDrawings.isEmpty()) {
+			return;
+		}
+		spectateDrawGui
+			?.FindFirstChild("stations")
+			?.GetChildren()
+			?.filter((station) => station.IsA("Frame"))
+			//sort by the "station" number at the end
+			?.sort((a, b) => a.Name.split("station")[1] < b.Name.split("station")[1])
+			.forEach((station) => {
+				const canvas = station as Frame;
+
+				const teamDrawing = this.previousDrawings[(station.Name.split("station")[1] as unknown as number) - 1];
+				print(teamDrawing);
+				print(this.previousDrawings);
+				if (teamDrawing === undefined) {
+					return;
+				}
+				canvas.Visible = true;
+
+				Drawing.generateDrawing(teamDrawing, canvas);
+			});
+	}
+
 	public destroy() {
 		spectateDrawGui.Enabled = false;
 		this.maid.Destroy();
+
+		//hide all stations
+		spectateDrawGui
+			?.FindFirstChild("stations")
+			?.GetChildren()
+			?.filter((station) => station.IsA("Frame"))
+			?.forEach((station) => {
+				(station as Frame).Visible = false;
+			});
 	}
 }

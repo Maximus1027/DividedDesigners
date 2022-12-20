@@ -3,6 +3,7 @@ import Maid from "@rbxts/maid";
 import { Players, RunService, UserInputService, Workspace } from "@rbxts/services";
 import { Events } from "client/network";
 import { Coordinate } from "shared/coordinate";
+import { getAvailableCanvas } from "shared/utils/DrawingUtil";
 
 const player = Players.LocalPlayer;
 const playerGui = player?.WaitForChild("PlayerGui") as PlayerGui;
@@ -13,10 +14,55 @@ export class Drawing implements OnStart, OnInit {
 	onInit() {}
 
 	onStart() {
-		Events.startDrawing.connect((drawingTime: number) => {
+		//TODO: Add previous drawings!
+		Events.startDrawing.connect((drawingTime: number, previousDrawings: unknown) => {
 			clientDrawGui.Enabled = true;
+
+			print(`Previous drawings: ${previousDrawings}`);
+			print(previousDrawings);
+
+			//display the team's previous drawings
+			const teamDrawings = previousDrawings as LuaTuple<[Vector2, Vector2]>[][];
+
+			if (teamDrawings !== undefined) {
+				//Load the previous drawings
+				clientDrawGui
+					?.WaitForChild("stations")
+					?.GetChildren()
+					?.filter((station) => station.IsA("Frame"))
+					//sort by the "station" number at the end
+					?.sort((a, b) => a.Name.split("station")[1] < b.Name.split("station")[1])
+					.forEach((station) => {
+						const canvas = station as Frame;
+						const drawing = teamDrawings[(station.Name.split("station")[1] as unknown as number) - 1];
+						if (drawing === undefined) {
+							return;
+						}
+						canvas.Visible = true;
+
+						drawing.forEach((tuple) => {
+							const u1 = new UDim2(tuple[0].X, 0, tuple[0].Y, 0);
+							const u2 = new UDim2(tuple[1].X, 0, tuple[1].Y, 0);
+							DrawCanvas.DrawLine(u1, u2, canvas);
+
+							const connectorFrame = canvas?.FindFirstChild("drawTool")?.Clone() as Frame;
+							connectorFrame.Position = u1;
+							connectorFrame.Size = new UDim2(
+								connectorFrame.Size.X.Scale,
+								0,
+								0,
+								DrawCanvas.DRAW_WIDTH / 2,
+							);
+							connectorFrame.Name = "connector";
+							connectorFrame.Parent = canvas;
+						});
+					});
+			}
+
 			//new drawing object
-			const newDrawing = new DrawCanvas(clientDrawGui?.FindFirstChild("station") as Frame);
+			const availableCanvas = getAvailableCanvas(clientDrawGui);
+			const newDrawing = new DrawCanvas(availableCanvas);
+			availableCanvas.Visible = true;
 			newDrawing.startDrawing();
 
 			//countdown display
@@ -52,6 +98,7 @@ export class Drawing implements OnStart, OnInit {
 
 			//cleanup
 			clientDrawGui.Enabled = false;
+			availableCanvas.Visible = false;
 
 			//cleanup events
 			newDrawing.destroy();

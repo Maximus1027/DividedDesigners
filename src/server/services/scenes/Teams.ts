@@ -7,8 +7,19 @@ import { onStart, Scene } from "./Scene";
 export class Teams extends Scene implements onStart {
 	private finalTeams: Team[] = [];
 
+	/**
+	 * Get the current round's teams
+	 * @returns Team[]: Array of the current teams
+	 */
 	public getTeams(): Team[] {
 		return this.finalTeams;
+	}
+
+	/**
+	 * Resets the teams
+	 */
+	public resetTeams() {
+		this.finalTeams = [];
 	}
 
 	onStart(): Promise<Error | Success> {
@@ -39,6 +50,10 @@ export class Teams extends Scene implements onStart {
 		return Promise.resolve(Success.CONTINUE);
 	}
 
+	/**
+	 * Generates the teams for the round
+	 * @returns Map<String, Player[]>: Map of teams and their players
+	 */
 	private generateTeams(): Map<String, Player[]> {
 		const teams = new Map<String, Player[]>();
 
