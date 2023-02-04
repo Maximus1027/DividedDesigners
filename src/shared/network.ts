@@ -27,7 +27,7 @@ interface ClientEvents {
 	timesUp(): void;
 
 	startVoting(): void;
-	displayVoting(teamDrawings: unknown): void;
+	displayVoting(teamDrawings: unknown, members: Player[]): void;
 	cleanupVoting(): void;
 
 	sendTestDrawing(drawing: unknown): void;

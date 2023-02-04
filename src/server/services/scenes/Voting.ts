@@ -29,19 +29,14 @@ export class Voting extends Scene implements onStart, onDestroy {
 		// team that the sendvote event will send votes to
 		let currentVotingTeam: Team | undefined = undefined;
 
-		this.teams.forEach((team) => {
-			print(team.getPreviousDrawings());
-			//send the drawings to the players
-			Events.displayVoting.fire(this.gameService.loadedPlayers, team.getPreviousDrawings());
-
-			currentVotingTeam = team;
-
-			task.wait(PER_TEAM_TIME);
-		});
-
 		this.maid.GiveTask(
 			Events.sendVote.connect((player, vote: string) => {
 				//make sure player is eligible to vote
+				print("TESTING VOTE ELIGIBILITY ");
+				print("player is in scene: " + super.getScenePlayers().includes(player));
+				print("player is on team: " + currentVotingTeam?.hasPlayer(player));
+				print("player has already voted: " + this.votedPlayers.includes(player));
+
 				if (
 					!super.getScenePlayers().includes(player) || // > player is not in the scene
 					currentVotingTeam?.hasPlayer(player) || // > player is on the team
@@ -54,9 +49,23 @@ export class Voting extends Scene implements onStart, onDestroy {
 
 				currentVotingTeam?.addScoreFromVote(vote as VOTE);
 
-				print("RECEIVED VOTE: " + vote);
+				print("RECEIVED VOTE: " + vote + " ADDED TO TEAM: " + currentVotingTeam?.teamName);
 			}),
 		);
+
+		this.teams.forEach((team) => {
+			print(team.getPreviousDrawings());
+			//send the drawings to the players
+
+			Events.displayVoting.fire(this.gameService.loadedPlayers, team.getPreviousDrawings(), team.getPlayers());
+
+			currentVotingTeam = team;
+			this.votedPlayers.clear();
+
+			task.wait(PER_TEAM_TIME);
+		});
+
+		Events.cleanupVoting.fire(this.gameService.loadedPlayers);
 
 		return Promise.resolve(Success.CONTINUE);
 	}

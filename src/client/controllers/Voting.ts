@@ -1,6 +1,7 @@
 import { Controller, OnStart, OnInit } from "@flamework/core";
 import { Players } from "@rbxts/services";
 import { Events } from "client/network";
+import { Team } from "shared/Team";
 import { getAvailableCanvas } from "shared/utils/DrawingUtil";
 import { VOTE } from "shared/vote";
 import { Drawing } from "./DrawingDisplay";
@@ -17,10 +18,18 @@ export class Voting implements OnStart, OnInit {
 	onInit() {
 		Events.startVoting.connect(() => {
 			votingDisplay.Enabled = true;
+			votes.Visible = false;
 		});
 
 		// Display drawing for the player to vote on
-		Events.displayVoting.connect((td) => {
+		Events.displayVoting.connect((td, members: Player[]) => {
+			//Only show voting to non team members
+			if (members.find((member) => member === player) === undefined) {
+				votes.Visible = true;
+			} else {
+				votes.Visible = false;
+			}
+
 			// Hide all and clerar stations
 			stations.GetChildren().forEach((station) => {
 				if (station.IsA("Frame")) {
@@ -48,7 +57,9 @@ export class Voting implements OnStart, OnInit {
 			if (vote.IsA("ImageButton"))
 				vote.MouseButton1Click.Connect(() => {
 					Events.sendVote.fire(vote.Name);
+					print(`Voted for ${vote.Name}! from client!`);
 				});
+			print(vote.Name);
 		});
 	}
 

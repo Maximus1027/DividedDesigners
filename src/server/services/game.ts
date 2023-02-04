@@ -63,6 +63,10 @@ class Game {
 			})
 			.andThen(() => {
 				activePlayers = this.gameService.loadedPlayers;
+
+				print(`ACTIVATE PLAYERS IN SCENE:`);
+				print(activePlayers);
+
 				const teams = new Teams(activePlayers);
 				const promise = teams.onStart();
 				this.teams = teams.getTeams();
@@ -90,6 +94,7 @@ class Game {
 					error(guard);
 				}
 			})
+			.andThenCall(Promise.delay, 5)
 			.andThen(() => {
 				return new Voting(activePlayers, this.teams).onStart();
 			})
@@ -97,6 +102,13 @@ class Game {
 				if (guard !== Success.CONTINUE) {
 					error(guard);
 				}
+			})
+			.finally(() => {
+				print("POINTS!!!!!!");
+				this.teams.forEach((team) => {
+					print(team.teamName);
+					print(team.getScore());
+				});
 			})
 			.catch((err) => {
 				print(err);

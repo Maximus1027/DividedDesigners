@@ -20,7 +20,7 @@ local GlobalEvents = createNetworkingEvent("Jw", {
 	["9dd0e307-0349-42b9-8477-a512db2813b7"] = {},
 	["43d34f47-f571-4b57-a010-87e3178589ab"] = {},
 	["d6bda1b6-d07e-4dd9-ac24-6a4f328e5cbd"] = {},
-	["0bedfb8f-ff92-4b6b-a065-5dcb5e4e223f"] = { t.union(t.any, t.none) },
+	["0bedfb8f-ff92-4b6b-a065-5dcb5e4e223f"] = { t.union(t.any, t.none), t.array(t.instanceIsA("Player")) },
 	["a3483754-ca2a-415c-b6df-bdb37fc0caf6"] = {},
 	["53483195-6ffd-4981-ad33-d328d9041e31"] = { t.union(t.any, t.none) },
 })
