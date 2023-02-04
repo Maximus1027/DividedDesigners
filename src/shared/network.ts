@@ -6,6 +6,8 @@ interface ServerEvents {
 
 	sendDrawing(drawing: unknown): void;
 	sendSpectatorUpdate(drawing: unknown): void;
+
+	sendVote(vote: unknown): void;
 }
 
 interface ClientEvents {
@@ -21,6 +23,12 @@ interface ClientEvents {
 	startSpectating(previousDrawings: unknown): void;
 	sendSpectateDrawing(drawing: unknown): void;
 	cleanupSpectating(): void;
+
+	timesUp(): void;
+
+	startVoting(): void;
+	displayVoting(teamDrawings: unknown): void;
+	cleanupVoting(): void;
 
 	sendTestDrawing(drawing: unknown): void;
 }

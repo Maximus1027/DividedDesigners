@@ -91,7 +91,8 @@ export class Drawing extends Scene implements onStart {
 		//TODO: STOP REUSING THE SAME START SPECTATING CODE! IT'S IDENTICAL!
 		this.teams.forEach((team) => {
 			//2 players = 30 seconds each; 3 players = 20 seconds each
-			const drawingtime = 60 / team.getPlayers().size();
+			//const drawingtime = 60 / team.getPlayers().size();
+			const drawingtime = 10 / team.getPlayers().size();
 
 			const drawPromise = Promise.try(() => {
 				//begin leader drawing
@@ -128,12 +129,21 @@ export class Drawing extends Scene implements onStart {
 
 						//partner2 is the `except` (does not spectate because they are drawing)
 						this.startSpectating(team, team.partner2);
+
+						task.wait(drawingtime + 1);
+						return Promise.resolve(Success.CONTINUE);
 					} else {
 						drawPromise.cancel();
+						return Promise.resolve(Success.CONTINUE);
 					}
-				});
+				})
+				.finallyReturn(Success.CONTINUE);
+
+			return drawPromise;
 		});
 
+		//task.wait(61);
+		task.wait(11);
 		return Promise.resolve(Success.CONTINUE);
 	}
 }

@@ -24,7 +24,13 @@
 		"flamework-template:out/client/controllers/UIDefaults@UIDefaults": "Vb",
 		"flamework-template:out/client/controllers/DrawingDisplay@DrawingDisplay": "7a",
 		"flamework-template:out/client/controllers/DrawingDisplay@SpectateDrawing": "bm",
-		"flamework-template:out/client/controllers/DrawingDisplay@Drawing": "Ae"
+		"flamework-template:out/client/controllers/DrawingDisplay@Drawing": "Ae",
+		"flamework-template:out/server/services/scenes/DrawingEnd@DrawingEnd": "pN",
+		"flamework-template:out/client/controllers/DrawingEnd@Lobby": "y1",
+		"flamework-template:out/client/controllers/DrawingEnd@DrawingEnd": "E8",
+		"flamework-template:out/server/services/scenes/Voting@Voting": "37",
+		"flamework-template:out/client/controllers/Voting@Lobby": "Yd",
+		"flamework-template:out/client/controllers/Voting@Voting": "21"
 	},
 	"salt": "fc640e90e84137958fc2b2c9c11b6ad02aee21e4f3c81938cd8ad87f04cd9a09ca29d2d79124d013c435a6258cc66ea38fc4116b1f363182c4cd8e62a8ff39fa",
 	"stringHashes": {
@@ -41,6 +47,11 @@
 		"remotes:sendSpectatorUpdate": "5c60a952-df91-492c-b69e-23c1592218f8",
 		"remotes:startSpectating": "ac329936-2ee0-4599-aa8e-6255d83cdecc",
 		"remotes:sendSpectateDrawing": "c77d3fb9-580a-4fba-aa8f-92d402792918",
-		"remotes:cleanupSpectating": "9dd0e307-0349-42b9-8477-a512db2813b7"
+		"remotes:cleanupSpectating": "9dd0e307-0349-42b9-8477-a512db2813b7",
+		"remotes:timesUp": "43d34f47-f571-4b57-a010-87e3178589ab",
+		"remotes:sendVote": "4368e680-efa1-47ad-b524-2155ebf56be6",
+		"remotes:displayVoting": "0bedfb8f-ff92-4b6b-a065-5dcb5e4e223f",
+		"remotes:cleanupVoting": "a3483754-ca2a-415c-b6df-bdb37fc0caf6",
+		"remotes:startVoting": "d6bda1b6-d07e-4dd9-ac24-6a4f328e5cbd"
 	}
 }

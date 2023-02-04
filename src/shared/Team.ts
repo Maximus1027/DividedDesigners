@@ -1,9 +1,13 @@
+import { VOTE } from "./vote";
+
 export class Team {
 	teamName: String;
 	leader: Player;
 	partner: Player;
 	partner2?: Player;
 	previousDrawings?: LuaTuple<[Vector2, Vector2]>[][];
+
+	score = 0;
 	constructor(teamName: String, leader: Player, partner: Player, partner2?: Player) {
 		this.partner = partner;
 		this.leader = leader;
@@ -52,6 +56,43 @@ export class Team {
 	 */
 	public hasPlayer(player: Player): boolean {
 		return this.getPlayers().indexOf(player) !== -1;
+	}
+
+	/**
+	 * Adds the corresponding score to the team based on the vote
+	 * @param vote the vote to add
+	 */
+	public addScoreFromVote(vote: VOTE): void {
+		switch (vote) {
+			case VOTE.BAD:
+				this.score += 1;
+				break;
+			case VOTE.OK:
+				this.score += 2;
+				break;
+			case VOTE.GOOD:
+				this.score += 3;
+				break;
+			case VOTE.GREAT:
+				this.score += 4;
+				break;
+		}
+	}
+
+	/**
+	 * Adds score to the team
+	 * @param score the score number to add
+	 */
+	public addScore(score: number) {
+		this.score += score;
+	}
+
+	/**
+	 *
+	 * @returns number: the team's score
+	 */
+	public getScore(): number {
+		return this.score;
 	}
 
 	/**

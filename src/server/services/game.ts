@@ -4,10 +4,12 @@ import { Events } from "server/network";
 import { Error, Success } from "shared/errors";
 import { Team } from "shared/Team";
 import { Drawing } from "./scenes/Drawing";
+import { DrawingEnd } from "./scenes/DrawingEnd";
 import { Explain } from "./scenes/Explain";
 import { Lobby } from "./scenes/Lobby";
 import { Scene } from "./scenes/Scene";
 import { Teams } from "./scenes/Teams";
+import { Voting } from "./scenes/Voting";
 
 @Service({})
 export class GameService implements OnStart, OnInit {
@@ -74,6 +76,22 @@ class Game {
 			})
 			.andThen(() => {
 				return new Drawing(this.teams).onStart();
+			})
+			.andThen((guard) => {
+				if (guard !== Success.CONTINUE) {
+					error(guard);
+				}
+			})
+			.andThen(() => {
+				return new DrawingEnd(activePlayers).onStart();
+			})
+			.andThen((guard) => {
+				if (guard !== Success.CONTINUE) {
+					error(guard);
+				}
+			})
+			.andThen(() => {
+				return new Voting(activePlayers, this.teams).onStart();
 			})
 			.andThen((guard) => {
 				if (guard !== Success.CONTINUE) {

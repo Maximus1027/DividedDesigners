@@ -52,6 +52,7 @@ export class Drawing {
 
 			const connectorFrame = canvas?.FindFirstChild("drawTool")?.Clone() as Frame;
 			connectorFrame.Position = u1;
+			//TODO: Test without the / 2, probably why the drawings have been looking weird (found this addition in the "Previous drawings" commit)
 			connectorFrame.Size = new UDim2(connectorFrame.Size.X.Scale, 0, 0, DrawCanvas.DRAW_WIDTH / 2);
 			connectorFrame.Name = "connector";
 			connectorFrame.Parent = canvas;
